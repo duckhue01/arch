@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: go-app-database
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - go-app:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - go-app
+
+  go-app:
+    container_name: go-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    restart: on-failure
+    networks:
+      - go-app
+    ports: 
+      - 3000:3000
+
+volumes: 
+  go-app: null
+
+networks: 
+  go-app: null

@@ -2,7 +2,7 @@ package main
 
 type CustomerService struct {
 	OrderRepo string
-	Publisher DomainEventPublisher
+	// Publisher DomainEventPublisher
 }
 
 func (cus *CustomerService) TryCreateOrder() {
